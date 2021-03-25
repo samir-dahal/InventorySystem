@@ -107,6 +107,7 @@ namespace InventorySystem.Mobile.ViewModels.Customer
             {
                 Id = 0;
                 await NavigationHelper.PopAllRgPagesAsync();
+                CustomerPageViewModel.Instance.GetAllCustomersCommand.Execute(null);
             }
         }
         private bool IsFormValid()

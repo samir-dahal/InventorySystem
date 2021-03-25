@@ -88,6 +88,7 @@ namespace InventorySystem.Mobile.ViewModels.Category
             {
                 Id = 0;
                 await NavigationHelper.PopAllRgPagesAsync();
+                CategoryPageViewModel.Instance.GetAllCategoriesCommand.Execute(null);
             }
         }
         private bool IsFormValid()

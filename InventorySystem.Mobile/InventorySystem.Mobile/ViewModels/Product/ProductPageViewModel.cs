@@ -15,6 +15,7 @@ namespace InventorySystem.Mobile.ViewModels.Product
 {
     public class ProductPageViewModel : ObservableBase
     {
+        public static ProductPageViewModel Instance;
         public ObservableRangeCollection<ProductModel> Products { get; set; } = new();
         public IAsyncCommand GetAllProductsCommand { get; }
         public IAsyncCommand AddTappedCommand { get; }
@@ -24,6 +25,7 @@ namespace InventorySystem.Mobile.ViewModels.Product
         public IAsyncCommand<string> SearchCommand { get; }
         public ProductPageViewModel()
         {
+            Instance = this;
             GetAllProductsCommand = new AsyncCommand(GetAllProductsAsync, allowsMultipleExecutions: false);
             AddTappedCommand = new AsyncCommand(OnAddTappedAsync, allowsMultipleExecutions: false);
             ReloadTappedCommand = new AsyncCommand(GetAllProductsAsync, allowsMultipleExecutions: false);

@@ -109,6 +109,7 @@ namespace InventorySystem.Mobile.ViewModels.Supplier
             {
                 Id = 0;
                 await NavigationHelper.PopAllRgPagesAsync();
+                SupplierPageViewModel.Instance.GetAllSuppliersCommand.Execute(null);
             }
         }
         private bool IsFormValid()

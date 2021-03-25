@@ -13,6 +13,7 @@ namespace InventorySystem.Mobile.ViewModels.Customer
 {
     public class CustomerPageViewModel : ObservableBase
     {
+        public static CustomerPageViewModel Instance;
         public ObservableRangeCollection<CustomerModel> Customers { get; set; } = new();
         public IAsyncCommand GetAllCustomersCommand { get; }
         public IAsyncCommand AddTappedCommand { get; }
@@ -22,6 +23,7 @@ namespace InventorySystem.Mobile.ViewModels.Customer
         public IAsyncCommand<string> SearchCommand { get; }
         public CustomerPageViewModel()
         {
+            Instance = this;
             GetAllCustomersCommand = new AsyncCommand(GetAllCustomersAsync, allowsMultipleExecutions: false);
             AddTappedCommand = new AsyncCommand(OnAddTappedAsync, allowsMultipleExecutions: false);
             ReloadTappedCommand = new AsyncCommand(GetAllCustomersAsync, allowsMultipleExecutions: false);

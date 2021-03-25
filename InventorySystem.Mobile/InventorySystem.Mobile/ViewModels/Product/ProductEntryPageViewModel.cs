@@ -127,6 +127,7 @@ namespace InventorySystem.Mobile.ViewModels.Product
             {
                 Id = 0;
                 await NavigationHelper.PopAllRgPagesAsync();
+                ProductPageViewModel.Instance.GetAllProductsCommand.Execute(null);
             }
         }
         private bool IsFormValid()

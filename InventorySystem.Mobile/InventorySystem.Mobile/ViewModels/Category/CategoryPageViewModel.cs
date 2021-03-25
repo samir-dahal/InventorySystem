@@ -13,6 +13,7 @@ namespace InventorySystem.Mobile.ViewModels.Category
 {
     public class CategoryPageViewModel : ObservableBase
     {
+        public static CategoryPageViewModel Instance;
         public ObservableRangeCollection<CategoryModel> Categories { get; set; } = new();
         public IAsyncCommand GetAllCategoriesCommand { get; }
         public IAsyncCommand AddTappedCommand { get; }
@@ -22,6 +23,7 @@ namespace InventorySystem.Mobile.ViewModels.Category
         public IAsyncCommand<string> SearchCommand { get; }
         public CategoryPageViewModel()
         {
+            Instance = this;
             GetAllCategoriesCommand = new AsyncCommand(GetAllCategoriesAsync, allowsMultipleExecutions: false);
             AddTappedCommand = new AsyncCommand(OnAddTappedAsync, allowsMultipleExecutions: false);
             ReloadTappedCommand = new AsyncCommand(GetAllCategoriesAsync, allowsMultipleExecutions: false);

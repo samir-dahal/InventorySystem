@@ -13,6 +13,7 @@ namespace InventorySystem.Mobile.ViewModels.Supplier
 {
     public class SupplierPageViewModel : ObservableBase
     {
+        public static SupplierPageViewModel Instance;
         public ObservableRangeCollection<SupplierModel> Suppliers { get; set; } = new();
         public IAsyncCommand GetAllSuppliersCommand { get; }
         public IAsyncCommand AddTappedCommand { get; }
@@ -22,6 +23,7 @@ namespace InventorySystem.Mobile.ViewModels.Supplier
         public IAsyncCommand<string> SearchCommand { get; }
         public SupplierPageViewModel()
         {
+            Instance = this;
             GetAllSuppliersCommand = new AsyncCommand(GetAllSuppliersAsync, allowsMultipleExecutions: false);
             AddTappedCommand = new AsyncCommand(OnAddTappedAsync, allowsMultipleExecutions: false);
             ReloadTappedCommand = new AsyncCommand(GetAllSuppliersAsync, allowsMultipleExecutions: false);
