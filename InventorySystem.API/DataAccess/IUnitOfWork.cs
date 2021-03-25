@@ -12,6 +12,7 @@ namespace InventorySystem.API.DataAccess
         IProductRepository ProductRepository { get; }
         ISupplierRepository SupplierRepository { get; }
         IPurchaseRepository PurchaseRepository { get; }
+        ICustomerRepository CustomerRepository { get; }
         Task<int> CompleteAsync();
     }
 }

@@ -14,7 +14,6 @@ namespace InventorySystem.API.DataAccess
         [Required]
         [MaxLength(250)]
         public string Name { get; set; }
-        public List<Product> Products { get; set; }
     }
     public class Product
     {
@@ -47,12 +46,33 @@ namespace InventorySystem.API.DataAccess
         public Supplier Supplier { get; set; }
         public int SupplierId { get; set; }
         [Required]
-        [Column(TypeName = "decimal(5,2)")]
+        [Column(TypeName = "decimal(20,2)")]
         public decimal UnitPrice { get; set; }
         [Required]
-        [Column(TypeName = "decimal(5,2")]
+        [Column(TypeName = "decimal(20,2")]
         public decimal TotalPrice { get; set; }
         [Required]
         public int Quantity { get; set; }
+    }
+    public class Customer
+    {
+        public int Id { get; set; }
+        [Required]
+        [MaxLength(250)]
+        public string Name { get; set; }
+        [EmailAddress]
+        public string Email { get; set; }
+        [Required]
+        [MaxLength(10)]
+        public string Phone { get; set; }
+
+    }
+    public class Sale
+    {
+        public int Id { get; set; }
+        public Product Product { get; set; }
+        public int ProductId { get; set; }
+        public Customer Customer { get; set; }
+        public int CustomerId { get; set; }
     }
 }

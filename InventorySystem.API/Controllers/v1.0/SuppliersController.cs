@@ -115,5 +115,22 @@ namespace InventorySystem.API.Controllers.v1._0
                 Phone = supplier.Phone,
             });
         }
+
+        [HttpGet]
+        [Route("search")]
+        public async Task<IActionResult> GetAllBySearchQueryAsync(string query)
+        {
+            var suppliers = await UnitOfWork.SupplierRepository.FindAsync(supplier => supplier.Name.Contains(query));
+            return Ok(new Response<SupplierResponse>
+            {
+                Data = suppliers.Select(supplier => new SupplierResponse
+                {
+                    Id = supplier.Id,
+                    Name = supplier.Name,
+                    Email = supplier.Email,
+                    Phone = supplier.Phone,
+                })
+            });
+        }
     }
 }

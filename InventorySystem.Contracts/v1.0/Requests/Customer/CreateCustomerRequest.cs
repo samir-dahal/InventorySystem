@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace InventorySystem.Contracts.v1._0.Requests.Supplier
+namespace InventorySystem.Contracts.v1._0.Requests.Customer
 {
-    public class UpdateSupplierRequest
+    public class CreateCustomerRequest
     {
         [Required]
         public string Name { get; set; }

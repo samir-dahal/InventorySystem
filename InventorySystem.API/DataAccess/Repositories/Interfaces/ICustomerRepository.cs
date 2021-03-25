@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace InventorySystem.API.DataAccess.Repositories.Interfaces
 {
-    public interface IPurchaseRepository : IRepository<Purchase>
+    public interface ICustomerRepository : IRepository<Customer>
     {
     }
 }

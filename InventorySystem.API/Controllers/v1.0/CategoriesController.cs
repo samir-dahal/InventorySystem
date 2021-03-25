@@ -103,5 +103,20 @@ namespace InventorySystem.API.Controllers.v1._0
                 Name = category.Name,
             });
         }
+
+        [HttpGet]
+        [Route("search")]
+        public async Task<IActionResult> GetAllBySearchQueryAsync(string query)
+        {
+            var categories = await UnitOfWork.CategoryRepository.FindAsync(category => category.Name.Contains(query));
+            return Ok(new Response<CategoryResponse>
+            {
+                Data = categories.Select(category => new CategoryResponse
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                })
+            });
+        }
     }
 }

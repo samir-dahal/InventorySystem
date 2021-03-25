@@ -14,6 +14,7 @@ namespace InventorySystem.API.DataAccess
         public IProductRepository ProductRepository { get; }
         public ISupplierRepository SupplierRepository { get; }
         public IPurchaseRepository PurchaseRepository { get; }
+        public ICustomerRepository CustomerRepository { get; }
         public UnitOfWork(TheDbContext context)
         {
             _context = context;
@@ -21,6 +22,7 @@ namespace InventorySystem.API.DataAccess
             ProductRepository = new ProductRepository(_context);
             SupplierRepository = new SupplierRepository(_context);
             PurchaseRepository = new PurchaseRepository(_context);
+            CustomerRepository = new CustomerRepository(_context);
         }
 
         public async Task<int> CompleteAsync()

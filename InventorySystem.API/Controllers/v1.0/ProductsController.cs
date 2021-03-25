@@ -16,6 +16,7 @@ namespace InventorySystem.API.Controllers.v1._0
     public class ProductsController : BaseController
     {
         public ProductsController(IUnitOfWork unitOfWork) : base(unitOfWork) { }
+
         [HttpPost]
         public async Task<IActionResult> CreateAsync([FromBody] CreateProductRequest request)
         {
@@ -111,6 +112,23 @@ namespace InventorySystem.API.Controllers.v1._0
                 Name = product.Name,
                 Code = product.Code,
                 CategoryId = product.CategoryId,
+            });
+        }
+
+        [HttpGet]
+        [Route("search")]
+        public async Task<IActionResult> GetAllBySearchQueryAsync(string query)
+        {
+            var products = await UnitOfWork.ProductRepository.FindAsync(product => product.Name.Contains(query));
+            return Ok(new Response<ProductResponse>
+            {
+                Data = products.Select(product => new ProductResponse
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Code = product.Code,
+                    CategoryId = product.CategoryId,
+                })
             });
         }
     }

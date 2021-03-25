@@ -8,12 +8,10 @@ namespace InventorySystem.Contracts.v1._0.Requests.Supplier
     public class CreateSupplierRequest
     {
         [Required]
-        [MaxLength(250)]
         public string Name { get; set; }
         [EmailAddress]
         public string Email { get; set; }
         [Required]
-        [MaxLength(10)]
         public string Phone { get; set; }
     }
 }
