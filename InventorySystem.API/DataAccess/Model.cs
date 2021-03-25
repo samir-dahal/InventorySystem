@@ -74,5 +74,13 @@ namespace InventorySystem.API.DataAccess
         public int ProductId { get; set; }
         public Customer Customer { get; set; }
         public int CustomerId { get; set; }
+        [Required]
+        [Column(TypeName = "decimal(20,2)")]
+        public decimal UnitPrice { get; set; }
+        [Required]
+        [Column(TypeName = "decimal(20,2")]
+        public decimal TotalPrice { get; set; }
+        [Required]
+        public int Quantity { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace InventorySystem.Contracts.v1._0.Requests.Sale
 {
-    public class CreateSaleRequest
+    public class UpdateSaleRequest
     {
         [Required]
         public int ProductId { get; set; }
