@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="InventorySystem.Mobile.Views.Supplier.SupplierPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:InventorySystem.Mobile.ViewModels.Supplier"
+    x:Name="this"
+    Title="Suppliers">
+    <ContentPage.BindingContext>
+        <vm:SupplierPageViewModel />
+    </ContentPage.BindingContext>
+    <Grid Padding="20,10" RowDefinitions="auto, *">
+        <Grid ColumnDefinitions="*, 100, 100">
+            <SearchBar
+                Placeholder="Search Product..."
+                SearchCommand="{Binding SearchCommand}"
+                SearchCommandParameter="{Binding Source={RelativeSource Self}, Path=Text}" />
+            <Button
+                Grid.Column="1"
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding AddTappedCommand}"
+                Text="Add"
+                TextColor="White" />
+            <Button
+                Grid.Column="2"
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding ReloadTappedCommand}"
+                Text="Reload"
+                TextColor="White" />
+        </Grid>
+        <ScrollView
+            Grid.Row="1"
+            HorizontalScrollBarVisibility="Never"
+            VerticalScrollBarVisibility="Never">
+            <StackLayout BindableLayout.ItemsSource="{Binding Suppliers}" Spacing="10">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="*, 100, 100">
+                            <Label Text="{Binding Name}" VerticalOptions="Center" />
+                            <Button
+                                Grid.Column="1"
+                                BackgroundColor="{StaticResource Primary}"
+                                Command="{Binding BindingContext.EditTappedCommand, Source={x:Reference this}}"
+                                CommandParameter="{Binding Id}"
+                                Text="Edit"
+                                TextColor="White" />
+                            <Button
+                                Grid.Column="2"
+                                BackgroundColor="{StaticResource Error}"
+                                Command="{Binding BindingContext.DeleteTappedCommand, Source={x:Reference this}}"
+                                CommandParameter="{Binding Id}"
+                                Text="Delete"
+                                TextColor="White" />
+                        </Grid>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
+        </ScrollView>
+        <ActivityIndicator
+            Grid.Row="1"
+            HeightRequest="50"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="Center"
+            Color="{StaticResource Error}" />
+    </Grid>
+</ContentPage>

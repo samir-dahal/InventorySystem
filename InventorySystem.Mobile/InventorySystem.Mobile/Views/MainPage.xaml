@@ -9,7 +9,10 @@
     <ContentPage.BindingContext>
         <vm:MainPageViewModel />
     </ContentPage.BindingContext>
-    <CollectionView ItemsSource="{Binding Menus}">
+    <CollectionView
+        HorizontalScrollBarVisibility="Never"
+        ItemsSource="{Binding Menus}"
+        VerticalScrollBarVisibility="Never">
         <CollectionView.ItemsLayout>
             <GridItemsLayout
                 HorizontalItemSpacing="10"
