@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage
+    x:Class="InventorySystem.Mobile.Views.Product.ProductEntryPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:rg="http://rotorgames.com"
+    xmlns:vm="clr-namespace:InventorySystem.Mobile.ViewModels.Product"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
+    <ContentPage.BindingContext>
+        <vm:ProductEntryPageViewModel />
+    </ContentPage.BindingContext>
+    <Frame
+        Margin="20,0"
+        BackgroundColor="White"
+        VerticalOptions="Center">
+        <StackLayout>
+            <Label
+                x:Name="ProductEntryTitle"
+                FontSize="Title"
+                Text="Add Product" />
+            <Label Text="Name" />
+            <Entry Text="{Binding Name}">
+                <Entry.Behaviors>
+                    <xct:EventToCommandBehavior Command="{Binding InputChangedCommand}" EventName="TextChanged" />
+                </Entry.Behaviors>
+            </Entry>
+            <Label Text="Code" />
+            <Entry Text="{Binding Code}">
+                <Entry.Behaviors>
+                    <xct:EventToCommandBehavior Command="{Binding InputChangedCommand}" EventName="TextChanged" />
+                </Entry.Behaviors>
+            </Entry>
+            <Picker
+                Title="Select a Category"
+                ItemDisplayBinding="{Binding Name}"
+                ItemsSource="{Binding Categories}"
+                SelectedItem="{Binding SelectedCategory}">
+                <Picker.Behaviors>
+                    <xct:EventToCommandBehavior Command="{Binding InputChangedCommand}" EventName="SelectedIndexChanged" />
+                </Picker.Behaviors>
+            </Picker>
+            <Label
+                IsVisible="{Binding IsValidationError}"
+                Text="{Binding ValidationErrors}"
+                TextColor="{StaticResource Error}" />
+            <Button
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding SaveTappedCommand}"
+                Text="Save"
+                TextColor="White" />
+        </StackLayout>
+    </Frame>
+</rg:PopupPage>

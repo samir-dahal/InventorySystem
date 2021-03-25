@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application
+    x:Class="InventorySystem.Mobile.App"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Application.Resources>
+        <Color x:Key="Primary">#0096fb</Color>
+        <Color x:Key="Error">Red</Color>
+        <Color x:Key="Line">#dadce0</Color>
+        <x:String x:Key="PoppinsRegular">PoppinsRegular</x:String>
+        <x:String x:Key="PoppinsSemibold">PoppinsSemibold</x:String>
+        <x:String x:Key="Material">Material</x:String>
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="{StaticResource PoppinsRegular}" />
+            <Setter Property="TextColor" Value="Black" />
+        </Style>
+    </Application.Resources>
+</Application>

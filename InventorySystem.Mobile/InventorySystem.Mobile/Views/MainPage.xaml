@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="InventorySystem.Mobile.Views.MainPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:InventorySystem.Mobile.ViewModels"
+    x:Name="this"
+    Title="Home (Inventory System Demo)">
+    <ContentPage.BindingContext>
+        <vm:MainPageViewModel />
+    </ContentPage.BindingContext>
+    <CollectionView ItemsSource="{Binding Menus}">
+        <CollectionView.ItemsLayout>
+            <GridItemsLayout
+                HorizontalItemSpacing="10"
+                Orientation="Vertical"
+                Span="2"
+                VerticalItemSpacing="10" />
+        </CollectionView.ItemsLayout>
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Frame BorderColor="{StaticResource Line}" CornerRadius="0">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding BindingContext.NavigateToPageCommand, Source={x:Reference this}}" CommandParameter="{Binding MenuType}" />
+                    </Frame.GestureRecognizers>
+                    <StackLayout>
+                        <Label HorizontalOptions="Center" Text="{Binding Name}" />
+                        <Label
+                            FontFamily="{StaticResource Material}"
+                            FontSize="50"
+                            HorizontalOptions="Center"
+                            Text="{Binding Icon}" />
+                    </StackLayout>
+                </Frame>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>

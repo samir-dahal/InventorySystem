@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage
+    x:Class="InventorySystem.Mobile.Views.Category.CategoryEntryPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:rg="http://rotorgames.com"
+    xmlns:vm="clr-namespace:InventorySystem.Mobile.ViewModels.Category"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
+    <ContentPage.BindingContext>
+        <vm:CategoryEntryPageViewModel />
+    </ContentPage.BindingContext>
+    <Frame
+        Margin="20,0"
+        BackgroundColor="White"
+        VerticalOptions="Center">
+        <StackLayout>
+            <Label
+                x:Name="CategoryEntryTitle"
+                FontSize="Title"
+                Text="Add Category" />
+            <Label Text="Name" />
+            <Entry Text="{Binding Name}">
+                <Entry.Behaviors>
+                    <xct:EventToCommandBehavior Command="{Binding InputChangedCommand}" EventName="TextChanged" />
+                </Entry.Behaviors>
+            </Entry>
+            <Label
+                IsVisible="{Binding IsValidationError}"
+                Text="{Binding ValidationErrors}"
+                TextColor="{StaticResource Error}" />
+            <Button
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding SaveTappedCommand}"
+                Text="Save"
+                TextColor="White" />
+        </StackLayout>
+    </Frame>
+</rg:PopupPage>
