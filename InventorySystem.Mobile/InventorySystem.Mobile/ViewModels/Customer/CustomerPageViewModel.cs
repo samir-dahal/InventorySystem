@@ -63,14 +63,7 @@ namespace InventorySystem.Mobile.ViewModels.Customer
             {
                 IsBusy = true;
                 Customers.Clear();
-                var customers = await ApiHelper.GetAsync<Response<CustomerResponse>>("/customers");
-                Customers.AddRange(customers.Data.Select(customer => new CustomerModel
-                {
-                    Id = customer.Id,
-                    Name = customer.Name,
-                    Email = customer.Email,
-                    Phone = customer.Phone,
-                }));
+                Customers.AddRange(await GetAllCustomersAsync(null));
             }
             catch { }
             finally
@@ -84,14 +77,7 @@ namespace InventorySystem.Mobile.ViewModels.Customer
             {
                 IsBusy = true;
                 Customers.Clear();
-                var customers = await ApiHelper.GetAsync<Response<CustomerResponse>>($"/customers/search?query={query}");
-                Customers.AddRange(customers.Data.Select(customer => new CustomerModel
-                {
-                    Id = customer.Id,
-                    Name = customer.Name,
-                    Email = customer.Email,
-                    Phone = customer.Phone,
-                }));
+                Customers.AddRange(await GetAllCustomersAsync(query));
             }
             catch { }
             finally

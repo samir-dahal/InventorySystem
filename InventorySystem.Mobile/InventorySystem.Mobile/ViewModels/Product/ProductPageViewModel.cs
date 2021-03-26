@@ -66,13 +66,7 @@ namespace InventorySystem.Mobile.ViewModels.Product
             {
                 IsBusy = true;
                 Products.Clear();
-                var products = await ApiHelper.GetAsync<Response<ProductResponse>>("/products");
-                Products.AddRange(products.Data.Select(product => new ProductModel
-                {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Code = product.Code,
-                }));
+                Products.AddRange(await GetAllProductsAsync(null));
             }
             catch { }
             finally
@@ -86,13 +80,7 @@ namespace InventorySystem.Mobile.ViewModels.Product
             {
                 IsBusy = true;
                 Products.Clear();
-                var products = await ApiHelper.GetAsync<Response<ProductResponse>>($"/products/search?query={query}");
-                Products.AddRange(products.Data.Select(product => new ProductModel
-                {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Code = product.Code,
-                }));
+                Products.AddRange(await GetAllProductsAsync(query));
             }
             catch { }
             finally

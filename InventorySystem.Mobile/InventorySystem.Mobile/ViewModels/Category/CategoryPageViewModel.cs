@@ -64,12 +64,7 @@ namespace InventorySystem.Mobile.ViewModels.Category
             {
                 IsBusy = true;
                 Categories.Clear();
-                var categories = await ApiHelper.GetAsync<Response<CategoryResponse>>("/categories");
-                Categories.AddRange(categories.Data.Select(category => new CategoryModel
-                {
-                    Id = category.Id,
-                    Name = category.Name,
-                }));
+                Categories.AddRange(await GetAllCategoriesAsync(null));
             }
             catch { }
             finally
@@ -83,12 +78,7 @@ namespace InventorySystem.Mobile.ViewModels.Category
             {
                 IsBusy = true;
                 Categories.Clear();
-                var categorys = await ApiHelper.GetAsync<Response<CategoryResponse>>($"/categories/search?query={query}");
-                Categories.AddRange(categorys.Data.Select(category => new CategoryModel
-                {
-                    Id = category.Id,
-                    Name = category.Name,
-                }));
+                Categories.AddRange(await GetAllCategoriesAsync(query));
             }
             catch { }
             finally

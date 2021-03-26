@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace InventorySystem.Contracts.v1._0.Responses
+namespace InventorySystem.Mobile.Models
 {
-    public class PurchaseResponse
+    public class PurchaseModel
     {
         public int Id { get; set; }
         public int ProductId { get; set; }
         public string Product { get; set; }
-        public int SupplierId { get; set; }
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal TotalPrice { get; set; }

@@ -11,5 +11,21 @@ namespace InventorySystem.API.DataAccess.Repositories
     {
         public TheDbContext TheDbContext => Context as TheDbContext;
         public PurchaseRepository(TheDbContext context) : base(context) { }
+
+        public async Task<Purchase> GetWithProductAsync(int id)
+        {
+            return await TheDbContext.Purchases
+                .Include(purchase => purchase.Product)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(purchase => purchase.Id == id);
+        }
+
+        public async Task<IEnumerable<Purchase>> GetAllWithProductAsync()
+        {
+            return await TheDbContext.Purchases
+                .Include(purchase => purchase.Product)
+                .AsNoTracking()
+                .ToListAsync();
+        }
     }
 }

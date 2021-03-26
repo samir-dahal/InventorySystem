@@ -64,14 +64,7 @@ namespace InventorySystem.Mobile.ViewModels.Supplier
             {
                 IsBusy = true;
                 Suppliers.Clear();
-                var suppliers = await ApiHelper.GetAsync<Response<SupplierResponse>>("/suppliers");
-                Suppliers.AddRange(suppliers.Data.Select(supplier => new SupplierModel
-                {
-                    Id = supplier.Id,
-                    Name = supplier.Name,
-                    Email = supplier.Email,
-                    Phone = supplier.Phone,
-                }));
+                Suppliers.AddRange(await GetAllSuppliersAsync(null));
             }
             catch { }
             finally
@@ -85,14 +78,7 @@ namespace InventorySystem.Mobile.ViewModels.Supplier
             {
                 IsBusy = true;
                 Suppliers.Clear();
-                var suppliers = await ApiHelper.GetAsync<Response<SupplierResponse>>($"/suppliers/search?query={query}");
-                Suppliers.AddRange(suppliers.Data.Select(supplier => new SupplierModel
-                {
-                    Id = supplier.Id,
-                    Name = supplier.Name,
-                    Email = supplier.Email,
-                    Phone = supplier.Phone,
-                }));
+                Suppliers.AddRange(await GetAllSuppliersAsync(query));
             }
             catch { }
             finally

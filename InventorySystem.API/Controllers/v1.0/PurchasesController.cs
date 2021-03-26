@@ -45,7 +45,7 @@ namespace InventorySystem.API.Controllers.v1._0
         [Route("{id}")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            var purchase = await UnitOfWork.PurchaseRepository.GetAsync(id);
+            var purchase = await UnitOfWork.PurchaseRepository.GetWithProductAsync(id);
             if(purchase is null)
             {
                 return BadRequest(new ErrorResponse
@@ -56,6 +56,7 @@ namespace InventorySystem.API.Controllers.v1._0
             return Ok(new PurchaseResponse
             {
                 Id = purchase.Id,
+                Product = purchase.Product.Name,
                 SupplierId = purchase.SupplierId,
                 ProductId = purchase.ProductId,
                 Quantity = purchase.Quantity,
@@ -67,7 +68,7 @@ namespace InventorySystem.API.Controllers.v1._0
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
-            var purchases = await UnitOfWork.PurchaseRepository.GetAllAsync();
+            var purchases = await UnitOfWork.PurchaseRepository.GetAllWithProductAsync();
             return Ok(new Response<PurchaseResponse>
             {
                 Data = purchases.Select(purchase => new PurchaseResponse
@@ -77,6 +78,7 @@ namespace InventorySystem.API.Controllers.v1._0
                     Quantity = purchase.Quantity,
                     ProductId = purchase.ProductId,
                     UnitPrice = purchase.UnitPrice,
+                    Product = purchase.Product.Name,
                     TotalPrice = purchase.TotalPrice,
                 })
             });

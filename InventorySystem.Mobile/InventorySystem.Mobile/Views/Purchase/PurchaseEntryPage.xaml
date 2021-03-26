@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage
+    x:Class="InventorySystem.Mobile.Views.Purchase.PurchaseEntryPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:rg="http://rotorgames.com"
+    xmlns:vm="clr-namespace:InventorySystem.Mobile.ViewModels.Purchase"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
+    <ContentPage.BindingContext>
+        <vm:PurchaseEntryPageViewModel />
+    </ContentPage.BindingContext>
+    <Frame
+        Margin="20,0"
+        BackgroundColor="White"
+        VerticalOptions="Center">
+        <ScrollView HorizontalScrollBarVisibility="Never" VerticalScrollBarVisibility="Never">
+            <StackLayout>
+                <Label
+                    x:Name="PurchaseEntryTitle"
+                    FontSize="Title"
+                    Text="Add Purchase" />
+                <Picker
+                    Title="Select a Supplier"
+                    ItemDisplayBinding="{Binding Name}"
+                    ItemsSource="{Binding Suppliers}"
+                    SelectedItem="{Binding SelectedSupplier}">
+                    <Picker.Behaviors>
+                        <xct:EventToCommandBehavior Command="{Binding InputChangedCommand}" EventName="SelectedIndexChanged" />
+                    </Picker.Behaviors>
+                </Picker>
+                <Picker
+                    Title="Select a Product"
+                    ItemDisplayBinding="{Binding Name}"
+                    ItemsSource="{Binding Products}"
+                    SelectedItem="{Binding SelectedProduct}">
+                    <Picker.Behaviors>
+                        <xct:EventToCommandBehavior Command="{Binding InputChangedCommand}" EventName="SelectedIndexChanged" />
+                    </Picker.Behaviors>
+                </Picker>
+                <Label Text="Quantity" />
+                <Entry x:Name="QuantityText" Text="{Binding Quantity}">
+                    <Entry.Behaviors>
+                        <xct:EventToCommandBehavior
+                            Command="{Binding QuantityTextChangedCommand}"
+                            CommandParameter="{Binding Source={x:Reference QuantityText}, Path=Text}"
+                            EventName="TextChanged" />
+                    </Entry.Behaviors>
+                </Entry>
+                <Label Text="Unit Price" />
+                <Entry x:Name="UnitPriceText" Text="{Binding UnitPrice}">
+                    <Entry.Behaviors>
+                        <xct:EventToCommandBehavior
+                            Command="{Binding UnitPriceTextChangedCommand}"
+                            CommandParameter="{Binding Source={x:Reference UnitPriceText}, Path=Text}"
+                            EventName="TextChanged" />
+                    </Entry.Behaviors>
+                </Entry>
+                <Label Text="Total Price" />
+                <Label FontSize="Title" Text="{Binding TotalPrice, StringFormat='Rs.{0}'}" />
+                <Label
+                    IsVisible="{Binding IsValidationError}"
+                    Text="{Binding ValidationErrors}"
+                    TextColor="{StaticResource Error}" />
+                <Button
+                    BackgroundColor="{StaticResource Primary}"
+                    Command="{Binding SaveTappedCommand}"
+                    Text="Save"
+                    TextColor="White" />
+            </StackLayout>
+        </ScrollView>
+    </Frame>
+</rg:PopupPage>

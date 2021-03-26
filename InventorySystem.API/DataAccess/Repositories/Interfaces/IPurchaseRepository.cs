@@ -7,5 +7,7 @@ namespace InventorySystem.API.DataAccess.Repositories.Interfaces
 {
     public interface IPurchaseRepository : IRepository<Purchase>
     {
+        Task<Purchase> GetWithProductAsync(int id);
+        Task<IEnumerable<Purchase>> GetAllWithProductAsync();
     }
 }

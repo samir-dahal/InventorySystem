@@ -9,6 +9,7 @@ using InventorySystem.Mobile.Views.Category;
 using InventorySystem.Mobile.Models;
 using InventorySystem.Mobile.Views.Customer;
 using InventorySystem.Mobile.Views.Supplier;
+using InventorySystem.Mobile.Views.Purchase;
 
 namespace InventorySystem.Mobile.ViewModels
 {
@@ -45,6 +46,9 @@ namespace InventorySystem.Mobile.ViewModels
                     break;
                 case MenuType.Suppliers:
                     await NavigationHelper.PushPageAsync(new SupplierPage());
+                    break;
+                case MenuType.Purchases:
+                    await NavigationHelper.PushPageAsync(new PurchasePage());
                     break;
             }
         }
