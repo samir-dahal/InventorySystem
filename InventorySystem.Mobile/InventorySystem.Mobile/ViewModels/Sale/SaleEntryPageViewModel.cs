@@ -3,6 +3,7 @@ using InventorySystem.Mobile.Helpers;
 using InventorySystem.Mobile.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -44,18 +45,60 @@ namespace InventorySystem.Mobile.ViewModels.Sale
             get { return _quantity; }
             set { _quantity = value; OnPropertyChanged(nameof(Quantity)); }
         }
+        private bool _isAvailableQuantityVisible;
+
+        public bool IsAvailableQuantityVisible
+        {
+            get { return _isAvailableQuantityVisible; }
+            set { _isAvailableQuantityVisible = value; OnPropertyChanged(nameof(IsAvailableQuantityVisible)); }
+        }
+        private bool _hasItemInCart;
+
+        public bool HasItemInCart
+        {
+            get { return _hasItemInCart; }
+            set { _hasItemInCart = value; OnPropertyChanged(nameof(HasItemInCart)); }
+        }
         public ObservableRangeCollection<CustomerModel> Customers { get; set; } = new();
         public ObservableRangeCollection<PurchaseModel> Purchases { get; set; } = new();
+        public ObservableRangeCollection<CartModel> Cart { get; set; } = new();
         public IAsyncCommand GetAllCustomersCommand { get; }
         public IAsyncCommand GetAllPurchasesCommand { get; }
         public IAsyncCommand SaveTappedCommand { get; }
         public ICommand QuantityTextChangedCommand { get; }
+        public ICommand PurchaseInputChangedCommand { get; }
+        public ICommand AddToCartTappedCommand { get; }
+
         public SaleEntryPageViewModel()
         {
             GetAllCustomersCommand = new AsyncCommand(GetAllCustomersAsync, allowsMultipleExecutions: false);
             GetAllPurchasesCommand = new AsyncCommand(GetAllPurchasesAsync, allowsMultipleExecutions: false);
             SaveTappedCommand = new AsyncCommand(OnSaveAsync, allowsMultipleExecutions: false);
             QuantityTextChangedCommand = new Command<string>((value) => OnQuantityTextChange(value));
+            PurchaseInputChangedCommand = new Command(() => IsAvailableQuantityVisible = true);
+            AddToCartTappedCommand = new Command(() => OnAddToCart());
+        }
+        private void OnAddToCart()
+        {
+            if (IsFormValid() is false) return;
+            CartModel cartItem = null;
+            cartItem = Cart.FirstOrDefault(cart => cart.PurchaseId == SelectedPurchase.Id);
+            if (cartItem is not null)
+            {
+                cartItem.Quantity = Quantity;
+                return;
+            }
+            cartItem = new CartModel
+            {
+                CustomerId = SelectedCustomer.Id,
+                PurchaseId = SelectedPurchase.Id,
+                Product = SelectedPurchase.Product,
+                Quantity = Quantity,
+                UnitPrice = SelectedPurchase.UnitPrice,
+                TotalPrice = SelectedPurchase.UnitPrice * Quantity,
+            };
+            Cart.Add(cartItem);
+            HasItemInCart = true;
         }
         private void OnQuantityTextChange(string value)
         {
@@ -63,17 +106,17 @@ namespace InventorySystem.Mobile.ViewModels.Sale
             IsValidationError = false;
             int quantity = 0;
             bool isValidQuantity = Int32.TryParse(value, out quantity);
-            if (isValidQuantity is false)
+            if (isValidQuantity is false || quantity <= 0)
             {
                 IsValidationError = true;
                 sb.Append("Please enter valid quantity");
                 ValidationErrors = sb.ToString();
                 return;
             }
-            if (quantity > SelectedPurchase?.Quantity || quantity < 0)
+            if (quantity > SelectedPurchase?.Quantity)
             {
                 IsValidationError = true;
-                sb.Append("Quantity must be less than or equal to purchased product quantity");
+                sb.Append("Quantity must be at least 1 or equal to purchased product quantity");
                 ValidationErrors = sb.ToString();
                 return;
             }
@@ -83,14 +126,14 @@ namespace InventorySystem.Mobile.ViewModels.Sale
         {
             try
             {
-                success = await ApiHelper.PostAsync("/sales", new CreateSaleRequest
+                success = await ApiHelper.PostAsync("/sales", Cart.Select(cart => new CreateSaleRequest
                 {
-                    CustomerId = SelectedCustomer.Id,
-                    PurchaseId = SelectedPurchase.Id,
-                    Quantity = Quantity,
-                    UnitPrice = SelectedPurchase.UnitPrice,
-                    TotalPrice = SelectedPurchase.UnitPrice * Quantity,
-                });
+                    CustomerId = cart.CustomerId,
+                    PurchaseId = cart.PurchaseId,
+                    Quantity = cart.Quantity,
+                    UnitPrice = cart.UnitPrice,
+                    TotalPrice = cart.UnitPrice * cart.Quantity,
+                }));
                 if (success)
                 {
                     await UserInterfaceHelper.DisplayAlertAsync("Success", "Sale successfully created");
@@ -112,6 +155,7 @@ namespace InventorySystem.Mobile.ViewModels.Sale
             {
                 Id = 0;
                 await NavigationHelper.PopAllRgPagesAsync();
+                SalePageViewModel.Instance.GetAllSalesCommand.Execute(null);
             }
         }
         private async Task GetAllCustomersAsync()
@@ -133,7 +177,7 @@ namespace InventorySystem.Mobile.ViewModels.Sale
         private bool IsFormValid()
         {
             sb.Clear();
-            if(SelectedCustomer is null)
+            if (SelectedCustomer is null)
             {
                 sb.Append("Please select a Customer\n");
                 IsValidationError = true;
@@ -143,6 +187,20 @@ namespace InventorySystem.Mobile.ViewModels.Sale
             if (SelectedPurchase is null)
             {
                 sb.Append("Please select a Purchase\n");
+                IsValidationError = true;
+                ValidationErrors = sb.ToString();
+                return false;
+            }
+            if (SelectedPurchase.Quantity <= 0)
+            {
+                sb.Append("Selected purchase is out of stock");
+                IsValidationError = true;
+                ValidationErrors = sb.ToString();
+                return false;
+            }
+            if (Quantity <= 0 || Quantity > SelectedPurchase.Quantity)
+            {
+                sb.Append("Quantity must be at least 1 or equal to purchased product quantity");
                 IsValidationError = true;
                 ValidationErrors = sb.ToString();
                 return false;

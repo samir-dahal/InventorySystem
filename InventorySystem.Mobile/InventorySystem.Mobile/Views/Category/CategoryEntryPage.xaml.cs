@@ -32,7 +32,7 @@ namespace InventorySystem.Mobile.Views.Category
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            if(_id != 0)
+            if(_id is not 0)
             {
                 CategoryEntryTitle.Text = "Update Category";
                 _categoryEntryPageViewModel?.GetCategoryCommand.Execute(_id);

@@ -83,15 +83,15 @@ namespace InventorySystem.Mobile.ViewModels.Purchase
             IsValidationError = false;
             int quantity = 0;
             bool isValidQuantity = Int32.TryParse(value, out quantity);
-            if (isValidQuantity)
+            if (isValidQuantity is false || quantity <= 0)
             {
-                Quantity = quantity;
-                TotalPrice = UnitPrice * Quantity;
+                IsValidationError = true;
+                sb.Append("Please enter valid quantity\n");
+                ValidationErrors = sb.ToString();
                 return;
             }
-            IsValidationError = true;
-            sb.Append("Please enter valid quantity\n");
-            ValidationErrors = sb.ToString();
+            Quantity = quantity;
+            TotalPrice = UnitPrice * Quantity;
         }
         private void OnUnitPriceTextChange(string value)
         {
@@ -99,15 +99,15 @@ namespace InventorySystem.Mobile.ViewModels.Purchase
             IsValidationError = false;
             decimal unitPrice = 0;
             bool isValidUnitPrice = decimal.TryParse(value, out unitPrice);
-            if (isValidUnitPrice)
+            if (isValidUnitPrice is false || unitPrice <= 0)
             {
-                UnitPrice = unitPrice;
-                TotalPrice = UnitPrice * Quantity;
+                IsValidationError = true;
+                sb.Append("Please enter valid unit price\n");
+                ValidationErrors = sb.ToString();
                 return;
             }
-            IsValidationError = true;
-            sb.Append("Please enter valid unit price\n");
-            ValidationErrors = sb.ToString();
+            UnitPrice = unitPrice;
+            TotalPrice = UnitPrice * Quantity;
         }
         private async Task GetAllProductsAsync()
         {
@@ -199,7 +199,7 @@ namespace InventorySystem.Mobile.ViewModels.Purchase
             if (IsFormValid() == false) return;
             try
             {
-                if(_id != 0)
+                if(_id is not 0)
                 {
                     await UpdatePurchaseAsync();
                 }
@@ -229,6 +229,20 @@ namespace InventorySystem.Mobile.ViewModels.Purchase
             if (SelectedProduct is null)
             {
                 sb.Append("Please select a Product\n");
+                IsValidationError = true;
+                ValidationErrors = sb.ToString();
+                return false;
+            }
+            if(Quantity <= 0)
+            {
+                sb.Append("Please enter valid quantity\n");
+                IsValidationError = true;
+                ValidationErrors = sb.ToString();
+                return false;
+            }
+            if(UnitPrice <= 0)
+            {
+                sb.Append("Please enter valid unit price\n");
                 IsValidationError = true;
                 ValidationErrors = sb.ToString();
                 return false;

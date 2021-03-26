@@ -97,7 +97,7 @@ namespace InventorySystem.Mobile.ViewModels.Supplier
             if (IsFormValid() == false) return;
             try
             {
-                if (Id != 0)
+                if (Id is not 0)
                 {
                     await UpdateSupplierAsync();
                     return;
@@ -118,13 +118,6 @@ namespace InventorySystem.Mobile.ViewModels.Supplier
             if (string.IsNullOrWhiteSpace(Name))
             {
                 sb.Append("Name is required\n");
-                IsValidationError = true;
-                ValidationErrors = sb.ToString();
-                return false;
-            }
-            if (string.IsNullOrWhiteSpace(Email))
-            {
-                sb.Append("Email is required\n");
                 IsValidationError = true;
                 ValidationErrors = sb.ToString();
                 return false;

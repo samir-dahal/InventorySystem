@@ -110,7 +110,7 @@ namespace InventorySystem.Mobile.ViewModels.Product
             if (IsFormValid() == false) return;
             try
             {
-                if (Id != 0)
+                if (Id is not 0)
                 {
                     await UpdateProductAsync();
                     return;

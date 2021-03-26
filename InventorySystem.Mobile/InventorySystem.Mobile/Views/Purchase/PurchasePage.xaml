@@ -40,6 +40,14 @@
             HorizontalScrollBarVisibility="Never"
             VerticalScrollBarVisibility="Never">
             <StackLayout BindableLayout.ItemsSource="{Binding Purchases}">
+                <BindableLayout.EmptyView>
+                    <Grid>
+                        <Label
+                            HorizontalOptions="Center"
+                            Text="No Purchases available"
+                            VerticalOptions="Center" />
+                    </Grid>
+                </BindableLayout.EmptyView>
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
                         <StackLayout>
@@ -50,7 +58,10 @@
                                     </Style>
                                 </Grid.Resources>
                                 <Label Text="{Binding Id}" />
-                                <Label Grid.Column="1" Text="{Binding Product}" />
+                                <Label
+                                    Grid.Column="1"
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding Product}" />
                                 <Label Grid.Column="2" Text="{Binding Quantity}" />
                                 <Label Grid.Column="3" Text="{Binding UnitPrice}" />
                                 <Label Grid.Column="4" Text="{Binding TotalPrice}" />

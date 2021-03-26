@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace InventorySystem.Contracts.v1._0.Responses
+namespace InventorySystem.Mobile.Models
 {
-    public class SaleResponse
+    public class SaleModel
     {
         public int Id { get; set; }
         public int CustomerId { get; set; }

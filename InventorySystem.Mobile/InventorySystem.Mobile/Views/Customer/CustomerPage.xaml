@@ -33,6 +33,14 @@
             HorizontalScrollBarVisibility="Never"
             VerticalScrollBarVisibility="Never">
             <StackLayout BindableLayout.ItemsSource="{Binding Customers}" Spacing="10">
+                <BindableLayout.EmptyView>
+                    <Grid>
+                        <Label
+                            HorizontalOptions="Center"
+                            Text="No Customers available"
+                            VerticalOptions="Center" />
+                    </Grid>
+                </BindableLayout.EmptyView>
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
                         <Grid ColumnDefinitions="*, 100, 100">

@@ -32,7 +32,7 @@ namespace InventorySystem.Mobile.Views.Customer
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            if(_id != 0)
+            if(_id is not 0)
             {
                 CustomerEntryTitle.Text = "Update Customer";
                 _customerEntryPageViewModel?.GetCustomerCommand.Execute(_id);

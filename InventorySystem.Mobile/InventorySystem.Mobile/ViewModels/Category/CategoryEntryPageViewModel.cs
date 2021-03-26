@@ -76,7 +76,7 @@ namespace InventorySystem.Mobile.ViewModels.Category
             if (IsFormValid() == false) return;
             try
             {
-                if (Id != 0)
+                if (Id is not 0)
                 {
                     await UpdateCategoryAsync();
                     return;

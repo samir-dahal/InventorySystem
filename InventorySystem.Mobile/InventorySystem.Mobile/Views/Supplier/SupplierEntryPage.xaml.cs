@@ -32,7 +32,7 @@ namespace InventorySystem.Mobile.Views.Supplier
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            if(_id != 0)
+            if(_id is not 0)
             {
                 SupplierEntryTitle.Text = "Update Supplier";
                 _supplierEntryPageViewModel?.GetSupplierCommand.Execute(_id);

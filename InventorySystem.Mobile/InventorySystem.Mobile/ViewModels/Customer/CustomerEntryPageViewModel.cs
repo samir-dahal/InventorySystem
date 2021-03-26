@@ -95,7 +95,7 @@ namespace InventorySystem.Mobile.ViewModels.Customer
             if (IsFormValid() == false) return;
             try
             {
-                if (Id != 0)
+                if (Id is not 0)
                 {
                     await UpdateCustomerAsync();
                     return;

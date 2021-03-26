@@ -50,6 +50,8 @@ namespace InventorySystem.Mobile
             set { _validationErrors = value; OnPropertyChanged(nameof(ValidationErrors)); }
         }
         public ICommand InputChangedCommand => new Command(() => IsValidationError = false);
+
+        //these methods can be moved to service classes if needed
         protected async Task<ObservableRangeCollection<ProductModel>> GetAllProductsAsync(string query = null)
         {
             ObservableRangeCollection<ProductModel> result = new();

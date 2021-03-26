@@ -18,7 +18,7 @@
                 <Label
                     x:Name="SaleEntryTitle"
                     FontSize="Title"
-                    Text="Add Purchase" />
+                    Text="Add Sale" />
                 <Picker
                     Title="Select a Customer"
                     ItemDisplayBinding="{Binding Name}"
@@ -34,10 +34,10 @@
                     ItemsSource="{Binding Purchases}"
                     SelectedItem="{Binding SelectedPurchase}">
                     <Picker.Behaviors>
-                        <xct:EventToCommandBehavior Command="{Binding InputChangedCommand}" EventName="SelectedIndexChanged" />
+                        <xct:EventToCommandBehavior Command="{Binding PurchaseInputChangedCommand}" EventName="SelectedIndexChanged" />
                     </Picker.Behaviors>
                 </Picker>
-                <Label Text="{Binding SelectedPurchase.Quantity, StringFormat='Available Quantity: {0}'}" />
+                <Label IsVisible="{Binding IsAvailableQuantityVisible}" Text="{Binding SelectedPurchase.Quantity, StringFormat='Available Quantity: {0}'}" />
                 <Label Text="Quantity" />
                 <Entry x:Name="QuantityText" Text="{Binding Quantity}">
                     <Entry.Behaviors>
@@ -47,13 +47,48 @@
                             EventName="TextChanged" />
                     </Entry.Behaviors>
                 </Entry>
+                <CollectionView
+                    BackgroundColor="LightGray"
+                    HeightRequest="150"
+                    ItemsSource="{Binding Cart}">
+                    <CollectionView.Header>
+                        <Grid>
+                            <Label
+                                HorizontalOptions="Center"
+                                Text="Cart"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </CollectionView.Header>
+                    <CollectionView.EmptyView>
+                        <Grid>
+                            <Label
+                                HorizontalOptions="Center"
+                                Text="Empty Cart"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout>
+                                <Label Text="{Binding Product}" />
+                                <BoxView HeightRequest="1" Color="{StaticResource Line}" />
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
                 <Label
                     IsVisible="{Binding IsValidationError}"
                     Text="{Binding ValidationErrors}"
                     TextColor="{StaticResource Error}" />
                 <Button
+                    BackgroundColor="{StaticResource Error}"
+                    Command="{Binding AddToCartTappedCommand}"
+                    Text="Add To Cart"
+                    TextColor="White" />
+                <Button
                     BackgroundColor="{StaticResource Primary}"
                     Command="{Binding SaveTappedCommand}"
+                    IsEnabled="{Binding HasItemInCart}"
                     Text="Save"
                     TextColor="White" />
             </StackLayout>

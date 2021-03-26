@@ -25,7 +25,7 @@
                 </Entry.Behaviors>
             </Entry>
             <Label Text="Email" />
-            <Entry Text="{Binding Email}">
+            <Entry Text="{Binding Email}" Placeholder="(Optional)">
                 <Entry.Behaviors>
                     <xct:EventToCommandBehavior Command="{Binding InputChangedCommand}" EventName="TextChanged" />
                 </Entry.Behaviors>

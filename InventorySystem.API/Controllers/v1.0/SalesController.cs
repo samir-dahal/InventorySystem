@@ -18,19 +18,32 @@ namespace InventorySystem.API.Controllers.v1._0
         public SalesController(IUnitOfWork unitOfWork) : base(unitOfWork) { }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromBody] CreateSaleRequest request)
+        public async Task<IActionResult> CreateAsync([FromBody] IEnumerable<CreateSaleRequest> requests)
         {
-            var sale = new Sale
+            List<Sale> sales = new();
+            foreach (var request in requests)
             {
-                CustomerId = request.CustomerId,
-                PurchaseId = request.PurchaseId,
-                Quantity = request.Quantity,
-                UnitPrice = request.UnitPrice,
-                TotalPrice = request.TotalPrice,
-            };
-            await UnitOfWork.SaleRepository.AddAsync(sale);
-            var purchase = await UnitOfWork.PurchaseRepository.GetAsync(sale.PurchaseId);
-            purchase.Quantity = purchase.Quantity - sale.Quantity;
+                var sale = new Sale
+                {
+                    CustomerId = request.CustomerId,
+                    PurchaseId = request.PurchaseId,
+                    Quantity = request.Quantity,
+                    UnitPrice = request.UnitPrice,
+                    TotalPrice = request.TotalPrice,
+                };
+                var purchase = await UnitOfWork.PurchaseRepository.GetAsync(sale.PurchaseId);
+                int reducedPurchasedQuantity = purchase.Quantity - sale.Quantity;
+                if (reducedPurchasedQuantity < 0)
+                {
+                    return BadRequest(new ErrorResponse
+                    {
+                        Errors = new string[] { "Sale quantity must be less than or equal to purchased quantity" }
+                    });
+                }
+                purchase.Quantity = reducedPurchasedQuantity;
+                sales.Add(sale);
+            }
+            await UnitOfWork.SaleRepository.AddRangeAsync(sales);
             await UnitOfWork.CompleteAsync();
             return Ok();
         }
@@ -39,7 +52,7 @@ namespace InventorySystem.API.Controllers.v1._0
         [Route("{id}")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            var sale = await UnitOfWork.SaleRepository.GetAsync(id);
+            var sale = await UnitOfWork.SaleRepository.GetWithProductAsync(id);
             if (sale is null)
             {
                 return BadRequest(new ErrorResponse
@@ -51,6 +64,7 @@ namespace InventorySystem.API.Controllers.v1._0
             {
                 Id = sale.Id,
                 CustomerId = sale.CustomerId,
+                Product = sale.Purchase.Product.Name,
                 PurchaseId = sale.PurchaseId,
                 Quantity = sale.Quantity,
                 TotalPrice = sale.TotalPrice,
@@ -61,7 +75,7 @@ namespace InventorySystem.API.Controllers.v1._0
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
-            var sales = await UnitOfWork.SaleRepository.GetAllAsync();
+            var sales = await UnitOfWork.SaleRepository.GetAllWithProductAsync();
             return Ok(new Response<SaleResponse>
             {
                 Data = sales.Select(sale => new SaleResponse
@@ -69,6 +83,7 @@ namespace InventorySystem.API.Controllers.v1._0
                     Id = sale.Id,
                     CustomerId = sale.CustomerId,
                     PurchaseId = sale.PurchaseId,
+                    Product = sale.Purchase.Product.Name,
                     Quantity = sale.Quantity,
                     TotalPrice = sale.TotalPrice,
                     UnitPrice = sale.UnitPrice,

@@ -33,7 +33,7 @@ namespace InventorySystem.Mobile.Views.Product
         {
             base.OnAppearing();
             _productEntryPageViewModel?.GetAllCategoriesCommand.Execute(null);
-            if(_id != 0)
+            if(_id is not 0)
             {
                 ProductEntryTitle.Text = "Update Product";
                 _productEntryPageViewModel?.GetProductCommand.Execute(_id);
