@@ -8,7 +8,7 @@ namespace InventorySystem.Contracts.v1._0.Requests.Sale
     public class UpdateSaleRequest
     {
         [Required]
-        public int ProductId { get; set; }
+        public int PurchaseId { get; set; }
         [Required]
         public int CustomerId { get; set; }
         [Required]

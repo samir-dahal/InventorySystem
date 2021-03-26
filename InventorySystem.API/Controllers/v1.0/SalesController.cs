@@ -23,12 +23,14 @@ namespace InventorySystem.API.Controllers.v1._0
             var sale = new Sale
             {
                 CustomerId = request.CustomerId,
-                ProductId = request.ProductId,
+                PurchaseId = request.PurchaseId,
                 Quantity = request.Quantity,
                 UnitPrice = request.UnitPrice,
                 TotalPrice = request.TotalPrice,
             };
             await UnitOfWork.SaleRepository.AddAsync(sale);
+            var purchase = await UnitOfWork.PurchaseRepository.GetAsync(sale.PurchaseId);
+            purchase.Quantity = purchase.Quantity - sale.Quantity;
             await UnitOfWork.CompleteAsync();
             return Ok();
         }
@@ -49,7 +51,7 @@ namespace InventorySystem.API.Controllers.v1._0
             {
                 Id = sale.Id,
                 CustomerId = sale.CustomerId,
-                ProductId = sale.ProductId,
+                PurchaseId = sale.PurchaseId,
                 Quantity = sale.Quantity,
                 TotalPrice = sale.TotalPrice,
                 UnitPrice = sale.UnitPrice,
@@ -66,7 +68,7 @@ namespace InventorySystem.API.Controllers.v1._0
                 {
                     Id = sale.Id,
                     CustomerId = sale.CustomerId,
-                    ProductId = sale.ProductId,
+                    PurchaseId = sale.PurchaseId,
                     Quantity = sale.Quantity,
                     TotalPrice = sale.TotalPrice,
                     UnitPrice = sale.UnitPrice,
@@ -104,7 +106,7 @@ namespace InventorySystem.API.Controllers.v1._0
                 });
             }
             sale.CustomerId = request.CustomerId;
-            sale.ProductId = request.ProductId;
+            sale.PurchaseId = request.PurchaseId;
             sale.UnitPrice = request.UnitPrice;
             sale.Quantity = request.Quantity;
             sale.TotalPrice = request.TotalPrice;
@@ -113,7 +115,7 @@ namespace InventorySystem.API.Controllers.v1._0
             {
                 Id = sale.Id,
                 CustomerId = sale.CustomerId,
-                ProductId = sale.ProductId,
+                PurchaseId = sale.PurchaseId,
                 Quantity = sale.Quantity,
                 TotalPrice = sale.TotalPrice,
                 UnitPrice = sale.UnitPrice,

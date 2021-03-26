@@ -172,5 +172,25 @@ namespace InventorySystem.Mobile
             catch { }
             return result;
         }
+        protected async Task<ObservableRangeCollection<PurchaseModel>> GetAllPurchasesAsync(string query = null)
+        {
+            Response<PurchaseResponse> purchases;
+            ObservableRangeCollection<PurchaseModel> result = new();
+            try
+            {
+                purchases = await ApiHelper.GetAsync<Response<PurchaseResponse>>("/purchases");
+                result.AddRange(purchases.Data.Select(purchase => new PurchaseModel
+                {
+                    Id = purchase.Id,
+                    ProductId = purchase.ProductId,
+                    Quantity = purchase.Quantity,
+                    Product = purchase.Product,
+                    UnitPrice = purchase.UnitPrice,
+                    TotalPrice = purchase.TotalPrice,
+                }));
+            }
+            catch { }
+            return result;
+        }
     }
 }

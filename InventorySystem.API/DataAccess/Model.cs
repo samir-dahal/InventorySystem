@@ -70,8 +70,8 @@ namespace InventorySystem.API.DataAccess
     public class Sale
     {
         public int Id { get; set; }
-        public Product Product { get; set; }
-        public int ProductId { get; set; }
+        public Purchase Purchase { get; set; }
+        public int PurchaseId { get; set; }
         public Customer Customer { get; set; }
         public int CustomerId { get; set; }
         [Required]

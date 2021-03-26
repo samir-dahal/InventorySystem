@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="InventorySystem.Mobile.Views.Sale.SalePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:InventorySystem.Mobile.ViewModels.Sale"
+    Title="Sales">
+    <ContentPage.BindingContext>
+        <vm:SalePageViewModel />
+    </ContentPage.BindingContext>
+    <Grid Padding="20,10" RowDefinitions="auto, *">
+        <StackLayout Orientation="Horizontal">
+            <Button
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding MakeSaleTappedCommand}"
+                HorizontalOptions="Start"
+                Text="Make Sale"
+                TextColor="White" />
+            <Button
+                BackgroundColor="{StaticResource Error}"
+                HorizontalOptions="Start"
+                Text="Reload"
+                TextColor="White" />
+        </StackLayout>
+        <ScrollView
+            Grid.Row="1"
+            HorizontalScrollBarVisibility="Never"
+            VerticalScrollBarVisibility="Never" />
+    </Grid>
+</ContentPage>

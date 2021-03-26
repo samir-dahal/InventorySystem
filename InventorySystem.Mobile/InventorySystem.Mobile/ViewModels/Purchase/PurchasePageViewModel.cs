@@ -59,16 +59,7 @@ namespace InventorySystem.Mobile.ViewModels.Purchase
             {
                 IsBusy = true;
                 Purchases.Clear();
-                var purchases = await ApiHelper.GetAsync<Response<PurchaseResponse>>("/purchases");
-                Purchases.AddRange(purchases.Data.Select(purchase => new PurchaseModel
-                {
-                    Id = purchase.Id,
-                    ProductId = purchase.ProductId,
-                    Quantity = purchase.Quantity,
-                    Product = purchase.Product,
-                    UnitPrice = purchase.UnitPrice,
-                    TotalPrice = purchase.TotalPrice,
-                }));
+                Purchases.AddRange(await GetAllPurchasesAsync(null));
             }
             catch { }
             finally
