@@ -16,6 +16,7 @@ namespace InventorySystem.Mobile.ViewModels.Sale
         public IAsyncCommand MakeSaleTappedCommand { get; }
         public IAsyncCommand GetAllSalesCommand { get; }
         public IAsyncCommand ReloadTappedCommand { get; }
+        public IAsyncCommand<string> SearchCommand { get; }
         public ObservableRangeCollection<SaleModel> Sales { get; set; } = new();
         public SalePageViewModel()
         {
@@ -23,6 +24,31 @@ namespace InventorySystem.Mobile.ViewModels.Sale
             MakeSaleTappedCommand = new AsyncCommand(OnMakeSaleAsync, allowsMultipleExecutions: false);
             GetAllSalesCommand = new AsyncCommand(GetAllSalesAsync, allowsMultipleExecutions: false);
             ReloadTappedCommand = new AsyncCommand(GetAllSalesAsync, allowsMultipleExecutions: false);
+            SearchCommand = new AsyncCommand<string>(async (query) => await OnSearchAsync(query));
+        }
+        private async Task OnSearchAsync(string query)
+        {
+            try
+            {
+                IsBusy = true;
+                Sales.Clear();
+                var sales = await ApiHelper.GetAsync<Response<SaleResponse>>($"/sales/search?query={query}");
+                Sales.AddRange(sales.Data.Select(sale => new SaleModel
+                {
+                    CustomerId = sale.CustomerId,
+                    Id = sale.Id,
+                    Product = sale.Product,
+                    PurchaseId = sale.PurchaseId,
+                    Quantity = sale.Quantity,
+                    TotalPrice = sale.TotalPrice,
+                    UnitPrice = sale.UnitPrice,
+                }));
+            }
+            catch { }
+            finally
+            {
+                IsBusy = false;
+            }
         }
         private async Task OnMakeSaleAsync()
         {

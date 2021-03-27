@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventorySystem.API.Migrations
 {
     [DbContext(typeof(TheDbContext))]
-    [Migration("20210325075751_update_database_models")]
-    partial class update_database_models
+    [Migration("20210327070416_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -129,7 +129,7 @@ namespace InventorySystem.API.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int>("PurchaseId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -145,7 +145,7 @@ namespace InventorySystem.API.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("PurchaseId");
 
                     b.ToTable("Sales");
                 });
@@ -180,7 +180,7 @@ namespace InventorySystem.API.Migrations
                     b.HasOne("InventorySystem.API.DataAccess.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Category");
@@ -191,13 +191,13 @@ namespace InventorySystem.API.Migrations
                     b.HasOne("InventorySystem.API.DataAccess.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("InventorySystem.API.DataAccess.Supplier", "Supplier")
                         .WithMany()
                         .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Product");
@@ -210,18 +210,18 @@ namespace InventorySystem.API.Migrations
                     b.HasOne("InventorySystem.API.DataAccess.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("InventorySystem.API.DataAccess.Product", "Product")
+                    b.HasOne("InventorySystem.API.DataAccess.Purchase", "Purchase")
                         .WithMany()
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("PurchaseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Customer");
 
-                    b.Navigation("Product");
+                    b.Navigation("Purchase");
                 });
 #pragma warning restore 612, 618
         }

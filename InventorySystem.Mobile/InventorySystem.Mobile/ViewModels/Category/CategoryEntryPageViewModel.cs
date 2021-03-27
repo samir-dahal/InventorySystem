@@ -56,7 +56,7 @@ namespace InventorySystem.Mobile.ViewModels.Category
                 await UserInterfaceHelper.DisplayAlertAsync("Success", "Category updated successfully");
                 return;
             }
-            await UserInterfaceHelper.DisplayAlertAsync("Error", "Something went wrong");
+            await UserInterfaceHelper.DisplayAlertAsync("Error", "Could not delete this item");
         }
         private async Task CreateCategoryAsync()
         {
@@ -69,7 +69,7 @@ namespace InventorySystem.Mobile.ViewModels.Category
                 await UserInterfaceHelper.DisplayAlertAsync("Success", "Category added successfully");
                 return;
             }
-            await UserInterfaceHelper.DisplayAlertAsync("Error", "Something went wrong");
+            await UserInterfaceHelper.DisplayAlertAsync("Error", "Could not delete this item");
         }
         private async Task OnSaveAsync()
         {

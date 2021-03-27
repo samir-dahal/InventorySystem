@@ -17,6 +17,11 @@
                 HorizontalOptions="Start"
                 Text="Make Sale"
                 TextColor="White" />
+            <SearchBar
+                HorizontalOptions="FillAndExpand"
+                Placeholder="Search Sale.."
+                SearchCommand="{Binding SearchCommand}"
+                SearchCommandParameter="{Binding Source={RelativeSource Self}, Path=Text}" />
             <Button
                 BackgroundColor="{StaticResource Error}"
                 Command="{Binding ReloadTappedCommand}"
@@ -50,7 +55,7 @@
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
                         <StackLayout>
-                            <Grid ColumnDefinitions="120,120,120,120,120,auto,auto">
+                            <Grid ColumnDefinitions="120,120,120,120,120">
                                 <Grid.Resources>
                                     <Style TargetType="Label">
                                         <Setter Property="VerticalOptions" Value="Center" />
@@ -64,20 +69,6 @@
                                 <Label Grid.Column="2" Text="{Binding Quantity}" />
                                 <Label Grid.Column="3" Text="{Binding UnitPrice}" />
                                 <Label Grid.Column="4" Text="{Binding TotalPrice}" />
-                                <Button
-                                    Grid.Column="5"
-                                    BackgroundColor="{StaticResource Primary}"
-                                    Command="{Binding BindingContext.EditTappedCommand, Source={x:Reference this}}"
-                                    CommandParameter="{Binding Id}"
-                                    Text="Edit"
-                                    TextColor="White" />
-                                <Button
-                                    Grid.Column="6"
-                                    BackgroundColor="{StaticResource Error}"
-                                    Command="{Binding BindingContext.DeleteTappedCommand, Source={x:Reference this}}"
-                                    CommandParameter="{Binding Id}"
-                                    Text="Delete"
-                                    TextColor="White" />
                             </Grid>
                             <BoxView HeightRequest="1" Color="{StaticResource Line}" />
                         </StackLayout>

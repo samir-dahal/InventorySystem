@@ -73,7 +73,7 @@ namespace InventorySystem.Mobile.ViewModels.Customer
                 await UserInterfaceHelper.DisplayAlertAsync("Success", "Customer updated successfully");
                 return;
             }
-            await UserInterfaceHelper.DisplayAlertAsync("Error", "Something went wrong");
+            await UserInterfaceHelper.DisplayAlertAsync("Error", "Could not delete this item");
         }
         private async Task CreateCustomerAsync()
         {
@@ -88,7 +88,7 @@ namespace InventorySystem.Mobile.ViewModels.Customer
                 await UserInterfaceHelper.DisplayAlertAsync("Success", "Customer added successfully");
                 return;
             }
-            await UserInterfaceHelper.DisplayAlertAsync("Error", "Something went wrong");
+            await UserInterfaceHelper.DisplayAlertAsync("Error", "Could not delete this item");
         }
         private async Task OnSaveAsync()
         {

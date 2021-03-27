@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventorySystem.API.Migrations
 {
     [DbContext(typeof(TheDbContext))]
-    [Migration("20210326163726_added_delete_restrictions_to_data_models")]
-    partial class added_delete_restrictions_to_data_models
+    [Migration("20210327072419_restric_purchase_deletion")]
+    partial class restric_purchase_deletion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

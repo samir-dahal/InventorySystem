@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using System.Linq;
 using InventorySystem.Mobile.Views.Purchase;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace InventorySystem.Mobile.ViewModels.Purchase
 {
@@ -15,11 +17,13 @@ namespace InventorySystem.Mobile.ViewModels.Purchase
     {
         public static PurchasePageViewModel Instance;
         public ObservableRangeCollection<PurchaseModel> Purchases { get; set; } = new();
+        public ObservableRangeCollection<PurchaseModel> OriginalPurchases { get; set; } = new();
         public IAsyncCommand GetAllPurchasesCommand { get; }
         public IAsyncCommand MakePurchaseTappedCommand { get; }
         public IAsyncCommand ReloadTappedCommand { get; }
         public IAsyncCommand<int> DeleteTappedCommand { get; }
         public IAsyncCommand<int> EditTappedCommand { get; }
+        public IAsyncCommand<string> SearchCommand { get; }
         public PurchasePageViewModel()
         {
             Instance = this;
@@ -28,6 +32,29 @@ namespace InventorySystem.Mobile.ViewModels.Purchase
             MakePurchaseTappedCommand = new AsyncCommand(OnMakePurchaseAsync, allowsMultipleExecutions: false);
             EditTappedCommand = new AsyncCommand<int>(async (id) => await OnEditAsync(id), allowsMultipleExecutions: false);
             DeleteTappedCommand = new AsyncCommand<int>(async (id) => await OnDeleteAsync(id), allowsMultipleExecutions: false);
+            SearchCommand = new AsyncCommand<string>(async (query) => await OnSearchAsync(query));
+        }
+        private async Task OnSearchAsync(string query)
+        {
+            try
+            {
+                IsBusy = true;
+                Purchases.Clear();
+                var purchases = await ApiHelper.GetAsync<Response<PurchaseResponse>>($"/purchases/search?query={query}");
+                Purchases.AddRange(purchases.Data.Select(purchase => new PurchaseModel
+                {
+                    Id = purchase.Id,
+                    Product = purchase.Product,
+                    Quantity = purchase.Quantity,
+                    UnitPrice = purchase.UnitPrice,
+                    TotalPrice = purchase.TotalPrice,
+                }));
+            }
+            catch { }
+            finally
+            {
+                IsBusy = false;
+            }
         }
         private async Task OnMakePurchaseAsync()
         {
@@ -49,7 +76,7 @@ namespace InventorySystem.Mobile.ViewModels.Purchase
                     await UserInterfaceHelper.DisplayAlertAsync("Success", "Purchase successfully deleted");
                     return;
                 }
-                await UserInterfaceHelper.DisplayAlertAsync("Error", "Something went wrong");
+                await UserInterfaceHelper.DisplayAlertAsync("Error", "Could not delete this item");
             }
             catch { }
         }

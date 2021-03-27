@@ -48,7 +48,7 @@ namespace InventorySystem.Mobile.ViewModels.Supplier
                 }
                 else
                 {
-                    await UserInterfaceHelper.DisplayAlertAsync("Error", "Something went wrong");
+                    await UserInterfaceHelper.DisplayAlertAsync("Error", "Could not delete this item");
                 }
             }
             catch { }

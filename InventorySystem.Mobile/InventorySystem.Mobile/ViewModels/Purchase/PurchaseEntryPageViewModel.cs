@@ -155,7 +155,7 @@ namespace InventorySystem.Mobile.ViewModels.Purchase
                     PurchasePageViewModel.Instance.GetAllPurchasesCommand.Execute(null);
                     return;
                 }
-                await UserInterfaceHelper.DisplayAlertAsync("Error", "Something went wrong");
+                await UserInterfaceHelper.DisplayAlertAsync("Error", "Could not delete this item");
             }
             catch { }
         }
@@ -176,7 +176,7 @@ namespace InventorySystem.Mobile.ViewModels.Purchase
                     await UserInterfaceHelper.DisplayAlertAsync("Success", "Purchase updated successfully");
                     return;
                 }
-                await UserInterfaceHelper.DisplayAlertAsync("Error", "Something went wrong");
+                await UserInterfaceHelper.DisplayAlertAsync("Error", "Could not delete this item");
             }
             catch { }
         }

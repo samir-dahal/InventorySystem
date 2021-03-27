@@ -136,5 +136,25 @@ namespace InventorySystem.API.Controllers.v1._0
                 UnitPrice = sale.UnitPrice,
             });
         }
+
+        [HttpGet]
+        [Route("search")]
+        public async Task<IActionResult> GetAllBySearchQueryAsync(string query)
+        {
+            var sales = await UnitOfWork.SaleRepository.GetAllWithProductAsync();
+            return Ok(new Response<SaleResponse>
+            {
+                Data = sales.Where(sale => sale.Purchase.Product.Name.Contains(query)).Select(sale => new SaleResponse
+                {
+                    Id = sale.Id,
+                    CustomerId = sale.CustomerId,
+                    PurchaseId = sale.PurchaseId,
+                    Product = sale.Purchase.Product.Name,
+                    Quantity = sale.Quantity,
+                    TotalPrice = sale.TotalPrice,
+                    UnitPrice = sale.UnitPrice,
+                })
+            });
+        }
     }
 }

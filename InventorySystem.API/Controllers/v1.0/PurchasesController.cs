@@ -46,7 +46,7 @@ namespace InventorySystem.API.Controllers.v1._0
         public async Task<IActionResult> GetAsync(int id)
         {
             var purchase = await UnitOfWork.PurchaseRepository.GetWithProductAsync(id);
-            if(purchase is null)
+            if (purchase is null)
             {
                 return BadRequest(new ErrorResponse
                 {
@@ -127,6 +127,26 @@ namespace InventorySystem.API.Controllers.v1._0
                 UnitPrice = purchase.UnitPrice,
                 TotalPrice = purchase.TotalPrice,
                 Quantity = purchase.Quantity,
+            });
+        }
+
+        [HttpGet]
+        [Route("search")]
+        public async Task<IActionResult> GetAllBySearchQueryAsync(string query)
+        {
+            var purchases = await UnitOfWork.PurchaseRepository.GetAllWithProductAsync();
+            return Ok(new Response<PurchaseResponse>
+            {
+                Data = purchases.Where(purchase => purchase.Product.Name.Contains(query)).Select(purchase => new PurchaseResponse
+                {
+                    Id = purchase.Id,
+                    SupplierId = purchase.SupplierId,
+                    Product = purchase.Product.Name,
+                    ProductId = purchase.ProductId,
+                    UnitPrice = purchase.UnitPrice,
+                    TotalPrice = purchase.TotalPrice,
+                    Quantity = purchase.Quantity,
+                })
             });
         }
     }
