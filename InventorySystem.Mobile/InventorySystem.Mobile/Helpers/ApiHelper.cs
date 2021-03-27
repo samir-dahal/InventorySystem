@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InventorySystem.Contracts.v1._0;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -7,9 +8,6 @@ namespace InventorySystem.Mobile.Helpers
 {
     public static class ApiHelper
     {
-        public const string Root = "api";
-        public const string Version = "v1";
-        public const string Base = "/" + Root + "/" + Version;
         public static HttpClient NetClient
         {
             get
@@ -23,7 +21,7 @@ namespace InventorySystem.Mobile.Helpers
         {
             using (var client = NetClient)
             {
-                var response = await client.PostAsJsonAsync<T>(Base+uri, value);
+                var response = await client.PostAsJsonAsync<T>(ApiRoutes.Base+uri, value);
                 return response.IsSuccessStatusCode;
             }
         }
@@ -31,7 +29,7 @@ namespace InventorySystem.Mobile.Helpers
         {
             using (var client = NetClient)
             {
-                var response = await client.GetAsync(Base+uri);
+                var response = await client.GetAsync(ApiRoutes.Base+uri);
                 return await response.Content.ReadAsAsync<T>();
             }
         }
@@ -39,7 +37,7 @@ namespace InventorySystem.Mobile.Helpers
         {
             using (var client = NetClient)
             {
-                var response = await client.DeleteAsync(Base+uri);
+                var response = await client.DeleteAsync(ApiRoutes.Base+uri);
                 return response.IsSuccessStatusCode;
             }
         }
@@ -47,13 +45,9 @@ namespace InventorySystem.Mobile.Helpers
         {
             using (var client = NetClient)
             {
-                var response = await client.PutAsJsonAsync<T>(Base+uri, value);
+                var response = await client.PutAsJsonAsync<T>(ApiRoutes.Base+uri, value);
                 return response.IsSuccessStatusCode;
             }
-        }
-        public static async Task<T> ReadAs<T>(HttpContent value)
-        {
-            return await value.ReadAsAsync<T>();
         }
     }
 }
