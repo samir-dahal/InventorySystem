@@ -9,7 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventorySystem.Contracts",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventorySystem.Mobile.UWP", "InventorySystem.Mobile\InventorySystem.Mobile.UWP\InventorySystem.Mobile.UWP.csproj", "{A5881D35-C00D-48A2-A6C5-39E0BF7FA9B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventorySystem.Mobile", "InventorySystem.Mobile\InventorySystem.Mobile\InventorySystem.Mobile.csproj", "{7C9376A2-2D40-4471-ABF0-AA1615F51480}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventorySystem.Mobile", "InventorySystem.Mobile\InventorySystem.Mobile\InventorySystem.Mobile.csproj", "{7C9376A2-2D40-4471-ABF0-AA1615F51480}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebAPI", "WebAPI", "{25CBBB85-C948-4D66-A2CF-735E43C33425}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MobileDesktop", "MobileDesktop", "{403F1CCD-36F4-43B8-8924-964BBA6926A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -96,6 +100,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7BB49089-90B0-416A-8588-170EA2242E5C} = {25CBBB85-C948-4D66-A2CF-735E43C33425}
+		{E125DDAF-B241-4595-8A51-CC7E03C60365} = {25CBBB85-C948-4D66-A2CF-735E43C33425}
+		{A5881D35-C00D-48A2-A6C5-39E0BF7FA9B2} = {403F1CCD-36F4-43B8-8924-964BBA6926A9}
+		{7C9376A2-2D40-4471-ABF0-AA1615F51480} = {403F1CCD-36F4-43B8-8924-964BBA6926A9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7EDA364F-E305-4EBE-A908-DBB14D1DA889}
