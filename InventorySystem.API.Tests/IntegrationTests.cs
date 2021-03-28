@@ -57,5 +57,31 @@ namespace InventorySystem.API.Tests
             var response = await TestClient.PostAsJsonAsync(ApiRoutes.Base + "/suppliers", request);
             return await response.Content.ReadAsAsync<SupplierResponse>();
         }
+        //get
+        protected CreateCategoryRequest GetCategoryRequest()
+        {
+            return new CreateCategoryRequest
+            {
+                Name = "Test Category",
+            };
+        }
+        protected CreateCustomerRequest GetCustomerRequest()
+        {
+            return new CreateCustomerRequest
+            {
+                Name = "Test Customer",
+                Email = "customer@email.com",
+                Phone = "9814567894",
+            };
+        }
+        protected CreateSupplierRequest GetSupplierRequest()
+        {
+            return new CreateSupplierRequest
+            {
+                Name = "Test Supplier",
+                Email = "supplier@email.com",
+                Phone = "9814567894",
+            };
+        }
     }
 }

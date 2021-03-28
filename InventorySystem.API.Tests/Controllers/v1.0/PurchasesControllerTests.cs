@@ -20,5 +20,6 @@ namespace InventorySystem.API.Tests.Controllers.v1._0
 {
     public class PurchasesControllerTests : IntegrationTests
     {
+        
     }
 }

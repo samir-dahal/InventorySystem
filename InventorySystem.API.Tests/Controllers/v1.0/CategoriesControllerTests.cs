@@ -16,6 +16,36 @@ namespace InventorySystem.API.Tests.Controllers.v1._0
 {
     public class CategoriesControllerTests : IntegrationTests
     {
-        
+        [Fact]
+        public async Task DeleteAsync_ShouldNotDeleteCategory_WhenRefrenecedByProduct()
+        {
+            //Arrange
+            var category = await CreateCategoryAsync(GetCategoryRequest());
+            var product = await CreateProductAsync(new CreateProductRequest
+            {
+                CategoryId = category.Id,
+                Name = "Test Product",
+                Code = "3432",
+            });
+
+            //Act
+            var response = await TestClient.DeleteAsync(ApiRoutes.Base + $"/categories/{category.Id}");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        }
+
+        [Fact]
+        public async Task DeleteAsync_ShouldDeleteCategory_WhenNotReferencedByProduct()
+        {
+            //Arrange
+            var category = await CreateCategoryAsync(GetCategoryRequest());
+
+            //Act
+            var response = await TestClient.DeleteAsync(ApiRoutes.Base + $"/categories/{category.Id}");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
     }
 }
